@@ -2,14 +2,14 @@ const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 
-const UserController = require('./controllers/users.controller');
+const UsersController = require('./controllers/users.controller');
 
 const usersRoutes = require('./routes/users.routes');
 const pagesRoutes = require('./routes/pages.routes');
 
 const PORT = 3000;
 
-const userController = new UserController();
+const usersController = new UsersController();
 const app = express();
 
 app.engine('.hbs', exphbs({ extname: '.hbs' }));
@@ -23,11 +23,9 @@ app.use(bodyParser.urlencoded({
 
 app.use(express.json());
 
-app.use('/api/users', usersRoutes(userController));
-app.use('/', pagesRoutes(userController));
+app.use('/api/users', usersRoutes(usersController));
+app.use('/', pagesRoutes(usersController));
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`)
-})
-
-
+});
