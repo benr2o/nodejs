@@ -1,35 +1,51 @@
 let lastId = 0;
 
-const users = [{
+let users = [{
   id: lastId++,
   firstName: 'Lucien',
-  lastName: 'DROGO'
+  lastName: 'DROGO',
+  email: 'ldrogo@toto.fr'
 }, {
   id: lastId++,
   firstName: 'Bob',
-  lastName: 'RANDOM'
+  lastName: 'RANDOM',
+  email: 'bvrandom@toto.fr'
 }];
 
-module.exports = {
+module.exports = class UsersController {
 
-  getAll: function() {
-    return users;
-  },
+  getAll() {
+    return new Promise((resolve, reject) => {
+      resolve(users);
+    });
+  }
 
-  getOne: function(id) {
-    return users.find((u) => u.id === id);
-  },
+  getOne(id) {
+    return new Promise((resolve, reject) => {
+      const user = users.find((u) => u.id === id);
+      if (user) {
+        resolve(user);
+      } else {
+        reject(new Error('User not found'));
+      }
+    });
+  }
 
-  create: function(user) {
+  create(user) {
     const newUser = {
       ...user,
       id: lastId++
     }
-    users.push(newUser);
-    return newUser;
-  },
-
-  delete: function(id) {
-
+    return new Promise((resolve, reject) => {
+      users.push(newUser);
+      resolve(newUser);
+    });
   }
-};
+
+  delete(id) {
+    return new Promise((resolve, reject) => {
+      users = users.filter((u) => !(u.id === id));
+      resolve(true);
+    });
+  }
+}
