@@ -1,11 +1,11 @@
 <div class="details">
-  <ul>
-    <li>Firstname: {{user.firstName}}</li>
-    <li>Lastname: {{user.lastName}}</li>
-    <li>Email: {{user.email}}</li>
-    <li>Pseudo: {{pseudo}}</li>
-  </ul>
-</div>
-<div class="commands">
-  <a href="/">Back</a>
+  <div class="jumbotron">
+    <h1 class="display-4">{{user.firstName}} {{user.lastName}}</h1>
+    <p>{{pseudo}}</p>
+    <p class="lead">Email: {{user.email}}</p>
+    <hr>
+    <p class="lead">
+      <a class="btn btn-primary btn-lg" href="/" role="button">Back</a>
+    </p>
+  </div>
 </div>

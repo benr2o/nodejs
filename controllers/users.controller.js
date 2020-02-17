@@ -1,51 +1,57 @@
-let lastId = 0;
-
-let users = [{
-  id: lastId++,
-  firstName: 'Lucien',
-  lastName: 'DROGO',
-  email: 'ldrogo@toto.fr'
-}, {
-  id: lastId++,
-  firstName: 'Bob',
-  lastName: 'RANDOM',
-  email: 'bvrandom@toto.fr'
-}];
+const User = require('../model/user');
 
 module.exports = class UsersController {
 
   getAll() {
     return new Promise((resolve, reject) => {
-      resolve(users);
+      User.find((err, users) => {
+        if (err) console.log('err');
+        resolve(users.map(user => user.toObject()));
+      });
     });
   }
 
   getOne(id) {
     return new Promise((resolve, reject) => {
-      const user = users.find((u) => u.id === id);
-      if (user) {
-        resolve(user);
-      } else {
-        reject(new Error('User not found'));
-      }
+      User.findById(id, (err, user) => {
+        if (user) {
+          resolve(user.toObject());
+        } else {
+          reject(new Error('User not found'));
+        }
+      });
     });
   }
 
   create(user) {
-    const newUser = {
-      ...user,
-      id: lastId++
-    }
     return new Promise((resolve, reject) => {
-      users.push(newUser);
-      resolve(newUser);
+      User.create(user, (err, user) => {
+        if (err) reject(err)
+        resolve(user);
+      });
     });
+  }
+
+  search(lastName) {
+    return new Promise((resolve, reject) => {
+        User.find({ lastName: lastName }, (err, user) => {
+          if (user) {
+            resolve(user.map(user => user.toObject()));
+          } else {
+            reject(new Error('User ' + lastName + ' not found'));
+          }
+        });
+    })
   }
 
   delete(id) {
     return new Promise((resolve, reject) => {
-      users = users.filter((u) => !(u.id === id));
-      resolve(true);
+      User.remove({ "_id": id }, (err) => {
+        if (err) {
+          reject(new Error('User not found'));
+        }
+        resolve(true);
+      });
     });
   }
 }

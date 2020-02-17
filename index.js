@@ -1,6 +1,7 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const UsersController = require('./controllers/users.controller');
 
@@ -25,6 +26,11 @@ app.use(express.json());
 
 app.use('/api/users', usersRoutes(usersController));
 app.use('/', pagesRoutes(usersController));
+
+const uri = 'mongodb://admin:secret@localhost:27017/base?authSource=admin';
+mongoose.connect(uri, (error) => {
+  if (error) throw error;
+});
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`)

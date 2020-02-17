@@ -1,21 +1,45 @@
-<table class="users-list">
-  <thead>
-    <tr>
-      <th>Firstname</th>
-      <th>Lastname</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each users}}
-      <tr onclick="window.location.href='/details/{{this.id}}'">
-        <td>{{this.firstName}}</td>
-        <td>{{this.lastName}}</td>
-        <td><a href="/delete/{{this.id}}">X</a></td>
-      </tr>
-    {{/each}}
-  </tbody>
-</table>
-<div class="commands">
-  <a href="/add">Add a new user</a>
+<div class="row">
+  <div class="col-12">
+    <form action="/search">
+      <label for="searchByName">Chercher par nom</label>
+      <input type="text" id="searchByName" name="lastName">
+    </form>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+
+    {{#if users}}
+    <table class="table users-list">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">Firstname</th>
+          <th scope="col">Lastname</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each users}}
+        <tr onclick="window.location.href='/details/{{this._id}}'">
+          <td>{{this.firstName}}</td>
+          <td>{{this.lastName}}</td>
+          <td><a href="/delete/{{this._id}}">X</a></td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{else}}
+
+    <div class="alert alert-dark" role="alert">
+      No user found in database
+    </div>
+
+    {{/if}}
+  </div>
+  <div class="col-12">
+    <div class="commands">
+      <a href="/add">Add a new user</a>
+    </div>
+  </div>
 </div>

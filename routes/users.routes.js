@@ -10,7 +10,7 @@ module.exports = (controller) => {
   });
 
   router.get('/:id', (req, res) => {
-    const id = +req.params.id;
+    const id = req.params.id;
     controller.getOne(id).then((user) => {
       res.json(user);
     });
@@ -24,7 +24,7 @@ module.exports = (controller) => {
   });
 
   router.delete('/:id', (req, res) => {
-    const id = +req.params.id;
+    const id = req.params.id;
     controller.delete(id).then((ok) => {
       res.json({ result: ok });
     });
